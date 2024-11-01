@@ -1,0 +1,54 @@
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>왕의 휘장 맞추기</title>
+    <link rel="stylesheet" href="/public/css/stage2.css">
+</head>
+<body>
+    <h1>왕의 휘장을 맞춰보세요!</h1>
+    <p>각 휘장의 두 조각을 짝 맞추고, 4개의 완성된 휘장을 순서대로 나열하세요.</p>
+
+    <div class="problem">
+        <h2>문제</h2>
+        <img src="/assets/images/stage2/9.jpg" alt="문제 이미지" class="problem-image">
+    </div>
+
+    <div class="game-container">
+        <div class="pieces">
+            <div class="piece" draggable="true" id="piece1" style="background-image: url('/assets/images/stage2/1.jpg');"></div>
+            <div class="piece" draggable="true" id="piece2" style="background-image: url('/assets/images/stage2/2.jpg');"></div>
+            <div class="piece" draggable="true" id="piece3" style="background-image: url('/assets/images/stage2/3.jpg');"></div>
+            <div class="piece" draggable="true" id="piece4" style="background-image: url('/assets/images/stage2/4.jpg');"></div>
+            <div class="piece" draggable="true" id="piece5" style="background-image: url('/assets/images/stage2/5.jpg');"></div>
+            <div class="piece" draggable="true" id="piece6" style="background-image: url('/assets/images/stage2/6.jpg');"></div>
+            <div class="piece" draggable="true" id="piece7" style="background-image: url('/assets/images/stage2/7.jpg');"></div>
+            <div class="piece" draggable="true" id="piece8" style="background-image: url('/assets/images/stage2/8.jpg');"></div>
+        </div>
+
+        <div class="drop-zone-container">
+            <div class="drop-zone" id="drop1"></div>
+            <div class="drop-zone" id="drop2"></div>
+            <div class="drop-zone" id="drop3"></div>
+            <div class="drop-zone" id="drop4"></div>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <button id="submit">정답 확인</button>
+        <button id="hint">힌트</button> 
+        <button id="reset">다시하기</button> 
+    </div>
+    <p id="message"></p>
+    
+    <div id="hintContainer" class="hint-container" style="display: none;"> <!-- 초기에는 보이지 않도록 설정 -->
+        <p id="hintMessage">
+            힌트: 나라의 말이 '중국'과 달라 문자와 서로 통하지 아니하니,<br>
+            이런 까닭으로 어리석은 백성이 이르고자 할 바가 있어도 마침내 '제 뜻을 능히 펴지 못할 사람'이 많으니라.<br>
+            내가 이를 위하여 가엾이 여겨 새로 '스물여덟' 자를 만드노니,<br>
+            사람마다 하여금 '쉬이 익혀 날로 씀에 편하게 하고자' 할 따름이니라.
+        </p> 
+    </div>  
+    <script src="/src/games/stage2.js"></script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+/* 전체 페이지 설정 */
+body {
+    font-family: Arial, sans-serif;
+    display: flex;                 /* 플렉스 박스 사용 */
+    flex-direction: column;        /* 세로 방향 정렬 */
+    align-items: center;           /* 가로 방향 중앙 정렬 */
+    justify-content: center;       /* 세로 방향 중앙 정렬 */
+    min-height: 100vh;             /* 화면의 최소 높이를 100%로 설정 */
+    margin: 0;                     /* 기본 마진 제거 */
+}
+
+/* 제목 정렬 */
+h1, h2 {
+    text-align: center;
+}
+
+/* 문제 이미지 스타일 */
+.problem-image {
+    max-width: 100%;
+    height: auto;                  /* 반응형 이미지 */
+}
+
+/* 게임 컨테이너 설정 */
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 휘장 조각들을 담는 컨테이너 */
+.pieces {
+    display: flex;
+    flex-wrap: wrap;               /* 여러 줄로 휘장 배치 */
+    justify-content: center;
+    margin-bottom: 20px;           /* 하단 여백 추가 */
+}
+
+/* 각 휘장 조각 */
+.piece {
+    width: 200px;                  /* 너비 설정 (2의 배수) */
+    height: 400px; 
+    margin: 5px;
+    background-size: cover;        /* 배경 이미지 크기 조정 */
+    border: 2px solid #ccc;        /* 테두리 스타일 */
+    cursor: grab;                  /* 드래그 커서 설정 */
+}
+
+/* 드롭 영역 컨테이너 */
+.drop-zone-container {
+    display: flex;
+    justify-content: center;       /* 중앙 정렬 */
+}
+
+/* 드롭 존 스타일 */
+.drop-zone {
+    width: 400px;                  /* 너비 설정 (2의 배수) */
+    height: 400px;                  /* 높이 설정 (1의 배수) */
+    border: 2px dashed #333;       /* 점선 테두리 */
+    margin: 0 10px;                /* 드롭 존 간격 */
+    display: flex;                 /* 플렉스 박스 사용 */
+    align-items: center;           /* 조각을 세로 중앙에 정렬 */
+    justify-content: space-around; /* 조각을 좌우로 정렬 */
+}
+
+/* 드롭 존 안의 조각 크기 */
+.drop-zone .piece {
+    width: 200px;                  /* 너비 설정 (2의 배수) */
+    height: 400px;                   /* 높이 설정 (조각) */
+}
+
+
+/* 제출 버튼 스타일 */
+#submit {
+    background-color: #4CAF50;     /* 버튼 배경색 (초록색) */
+    color: white;                  /* 글자색 (흰색) */
+    padding: 10px 20px;            /* 버튼의 안쪽 여백 */
+    border: none;                  /* 테두리 제거 */
+    border-radius: 5px;            /* 둥근 테두리 */
+    font-size: 16px;               /* 글자 크기 */
+    cursor: pointer;               /* 클릭 가능한 커서 */
+    transition: background-color 0.3s ease; /* 배경색 전환 효과 */
+}
+
+#submit:hover {
+    background-color: #45a049;     /* 호버 시 배경색 변경 */
+}
+
+/* 버튼을 비활성화했을 때 스타일 */
+#submit:disabled {
+    background-color: #ccc;        /* 비활성화된 버튼 배경색 */
+    cursor: not-allowed;           /* 클릭 불가 커서 */
+}
+
+/* 메시지 스타일 */
+#message {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+/* 버튼들을 가로로 정렬하는 컨테이너 */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* 버튼 사이의 간격 */
+    margin-top: 20px;
+}
+
+/* 제출 버튼과 힌트 버튼 공통 스타일 */
+#submit, #hint ,#reset {
+    background-color: #4CAF50;     /* 버튼 배경색 (초록색) */
+    color: white;                  /* 글자색 (흰색) */
+    padding: 10px 20px;            /* 버튼의 안쪽 여백 */
+    border: none;                  /* 테두리 제거 */
+    border-radius: 5px;            /* 둥근 테두리 */
+    font-size: 16px;               /* 글자 크기 */
+    cursor: pointer;               /* 클릭 가능한 커서 */
+    transition: background-color 0.3s ease; /* 배경색 전환 효과 */
+}
+
+/* 제출 버튼과 힌트 버튼 호버 시 스타일 */
+#submit:hover, #hint:hover {
+    background-color: #45a049;     /* 호버 시 배경색 변경 */
+}
+
+/* 비활성화된 버튼 스타일 */
+#submit:disabled, #hint:disabled {
+    background-color: #ccc;        /* 비활성화된 버튼 배경색 */
+    cursor: not-allowed;           /* 클릭 불가 커서 */
+}
+
+
+#hintMessage {
+    text-align: center;  /* 텍스트 중앙 정렬 */
+    font-size: 16px;
+    color: white;  /* 텍스트 색상을 흰색으로 변경 */
+    margin: 0;  /* 위아래 여백 제거 */
+    line-height: 1.5;  /* 줄 간격을 적당히 조절 */
+}
+
+.hint-container {
+    display: none; /* 기본적으로는 보이지 않도록 */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8); /* 반투명 배경 */
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    z-index: 1000; /* 다른 요소 위에 표시되도록 */
+    max-width: 80%;
+    max-height: 80%;  /* 너무 커지지 않도록 최대 높이 제한 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: auto;  /* 내용이 많을 경우 스크롤 가능하게 */
+    display: flex;  /* 컨테이너를 플렉스 박스로 변경 */
+    align-items: center;  /* 세로 중앙 정렬 */
+    justify-content: center;  /* 가로 중앙 정렬 */
+}
+
