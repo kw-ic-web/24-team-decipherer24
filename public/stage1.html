@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>훈민정음 맞추기 게임</title>
+    <link rel="stylesheet" href="/public/css/stage1.css">
+</head>
+<body>
+    <header>
+        <h1>훈민정음 맞추기 게임</h1>
+        <p>전통 문화를 느끼며 단어를 맞춰보세요!</p>
+    </header>
+
+    <section class="game-board" id="drop-area">
+        <!-- 드래그 가능한 카드들이 여기에 무작위로 위치하게 됩니다 -->
+    </section>
+
+    <section class="controls">
+        <input type="text" id="answer-input" placeholder="단어를 입력하세요" />
+        <button id="submit-btn">정답 제출</button>
+        <button id="reset-btn">처음으로</button>
+        <div id="feedback"></div>
+    </section>
+
+    <script src="/src/games/stage1.js"></script>
+</body>
+</html>
