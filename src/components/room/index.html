@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css" />
+    <title>Game Room</title>
+</head>
+<body>
+    <div id="root"></div>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/babel" data-presets="env,react">
+      const socket = io({
+        auth: { token: localStorage.getItem("userToken") || "" } // 토큰이 없을 경우 빈 문자열
+      });
+
+      const Header = () => <h1 className="title">Game Room</h1>;
+
+      const NewRoom = ({ onNewRoom }) => {
+        const handleNewRoom = (event) => {
+          event.preventDefault();
+          const name = event.target.roomname.value;
+          event.target.roomname.value = "";
+          if (name.length > 0) onNewRoom(name);
+        };
+
+        return (
+          <div className="newroom">
+            <form onSubmit={handleNewRoom}>
+              <input type="text" name="roomname" placeholder="방 이름" />
+              <button>방 만들기</button>
+            </form>
+          </div>
+        );
+      };
+
+      const RoomItem = ({ room, onEnterRoom }) => (
+        <li>
+          <span>{room.name}</span>
+          <button
+            onClick={() => onEnterRoom(room.name)}
+            disabled={room.blackPlayerName && room.whitePlayerName}
+          >
+            입장하기
+          </button>
+        </li>
+      );
+
+      const RoomList = ({ roomList, onEnterRoom }) => (
+        <ul>{roomList.map((room) => <RoomItem key={room.name} room={room} onEnterRoom={onEnterRoom} />)}</ul>
+      );
+
+      const WaitingRoom = ({ onNewRoom, roomList, onEnterRoom }) => (
+        <div>
+          <NewRoom onNewRoom={onNewRoom} />
+          <RoomList roomList={roomList} onEnterRoom={onEnterRoom} />
+        </div>
+      );
+
+      const GameRoom = ({
+        roomName,
+        blackPlayerName,
+        whitePlayerName,
+        onPlayerSelect,
+        onLeaveRoom,
+        isGameReady
+      }) => (
+        <div className="game-room">
+          <div className="game-room__left">
+            <img src="/images/gamerule.png" alt="Game Illustration" className="game-room__image" />
+          </div>
+          <div className="game-room__right">
+            <h3>{roomName}</h3>
+            <div>
+              <button onClick={() => onPlayerSelect("black")} disabled={!!blackPlayerName}>
+                플레이어 1 선택
+              </button>
+              {blackPlayerName && <span>선택된 플레이어: {blackPlayerName}</span>}
+            </div>
+            <div>
+              <button onClick={() => onPlayerSelect("white")} disabled={!!whitePlayerName}>
+                플레이어 2 선택
+              </button>
+              {whitePlayerName && <span>선택된 플레이어: {whitePlayerName}</span>}
+            </div>
+            <button onClick={() => alert("게임 시작!")} disabled={!isGameReady}>
+              게임 시작
+            </button>
+            <button onClick={onLeaveRoom}>방 나가기</button>
+          </div>
+        </div>
+      );
+
+      const App = () => {
+        const [publicRoom, setPublicRoom] = React.useState({});
+        const [blackPlayerName, setBlackPlayerName] = React.useState("");
+        const [whitePlayerName, setWhitePlayerName] = React.useState("");
+        const [roomList, setRoomList] = React.useState([]);
+        const [isGameReady, setIsGameReady] = React.useState(false);
+
+        React.useEffect(() => {
+          socket.on("room_list", (list) => setRoomList(list));
+          socket.on("room_enter", (room) => {
+            setPublicRoom(room);
+            setBlackPlayerName(room.blackPlayerName || "");
+            setWhitePlayerName(room.whitePlayerName || "");
+          });
+          socket.on("room_leave", () => setPublicRoom({}));
+
+          socket.on("player_change", ({ blackPlayerName, whitePlayerName, isGameReady }) => {
+            setBlackPlayerName(blackPlayerName || "");
+            setWhitePlayerName(whitePlayerName || "");
+            setIsGameReady(isGameReady);
+          });
+
+          socket.emit("room_list");
+
+          return () => {
+            socket.off("room_list");
+            socket.off("room_enter");
+            socket.off("room_leave");
+            socket.off("player_change");
+          };
+        }, []);
+
+        const handleNewRoom = (name) => socket.emit("room_new", name);
+        const handleEnterRoom = (roomName) => socket.emit("room_enter", roomName);
+        const handleLeaveRoom = () => socket.emit("room_leave");
+        const handlePlayerSelect = (color) => {
+          const playerName = prompt("플레이어 이름을 입력하세요:", ""); // 항상 빈 문자열을 기본값으로 설정
+          if (playerName) {
+            const token = localStorage.getItem("userToken");
+            socket.emit("player_change", { color, token, playerName });
+          }
+        };
+
+        return (
+          <>
+            <Header />
+            {publicRoom.name ? (
+              <GameRoom
+                roomName={publicRoom.name}
+                blackPlayerName={blackPlayerName}
+                whitePlayerName={whitePlayerName}
+                onPlayerSelect={handlePlayerSelect}
+                onLeaveRoom={handleLeaveRoom}
+                isGameReady={isGameReady}
+              />
+            ) : (
+              <WaitingRoom onNewRoom={handleNewRoom} roomList={roomList} onEnterRoom={handleEnterRoom} />
+            )}
+          </>
+        );
+      };
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+</body>
+</html>

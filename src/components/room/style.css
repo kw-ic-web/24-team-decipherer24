@@ -1,0 +1,76 @@
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f5f5f5;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.game-room {
+  display: flex;
+  width: 1300px; /* 고정된 너비 */
+  height: 800px; /* 고정된 높이 */
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.game-room__left {
+  width: 50%; /* 왼쪽 섹션을 고정 크기로 설정 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f0f0;
+  padding: 30px;
+}
+
+.game-room__image {
+  width: 80%; /* 이미지 크기를 고정 비율로 설정 */
+  max-width: 500px;
+  border-radius: 8px;
+}
+
+.game-room__right {
+  width: 50%; /* 오른쪽 섹션을 고정 크기로 설정 */
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.game-room__right h3 {
+  margin-bottom: 10px;
+}
+
+.game-room__right div {
+  margin: 15px 0;
+}
+
+button {
+  margin-top: 15px;
+  padding: 12px;
+  font-size: 1em;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
