@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-// import './stage3.css';
+import './stage3.css';
 
 const App = () => {
   const [answer, setAnswer] = useState('');
@@ -72,17 +72,17 @@ const App = () => {
 
       <div className="image-container">
     <div style={{ position: 'relative', display: 'inline-block' }}>
-        <img src="../assets/images/stage3/dansoo.png" alt="단소" className="image" />
+        <img src="/images/stage3/dansoo.png" alt="단소" className="image" />
         {/* 단소 이미지 위에 버튼 추가 */}
         <div className="button-container">
-            <button onClick={() => playSound('./assets/sounds/중.m4a')}>1</button>
-            <button onClick={() => playSound('./assets/sounds/임.m4a')}>2</button>
-            <button onClick={() => playSound('./assets/sounds/무.m4a')}>3</button>
-            <button onClick={() => playSound('./assets/sounds/황.m4a')}>4</button>
-            <button onClick={() => playSound('./assets/sounds/태.m4a')}>5</button>
+            <button onClick={() => playSound('/sounds/중.m4a')}>1</button>
+            <button onClick={() => playSound('/sounds/임.m4a')}>2</button>
+            <button onClick={() => playSound('/sounds/무.m4a')}>3</button>
+            <button onClick={() => playSound('/sounds/황.m4a')}>4</button>
+            <button onClick={() => playSound('/sounds/태.m4a')}>5</button>
         </div>
     </div>
-    <img src="../assets/images/stage3/ak.png" alt="단소 악보" className="image" />
+    <img src="/images/stage3/ak.png" alt="단소 악보" className="image" />
 </div>
 
 
@@ -116,7 +116,7 @@ const App = () => {
 
       {/* 세종대왕 이미지와 말풍선 추가 */}
       <div className="bubble-container">
-        <img src="../assets/images/stage3/king.jpg" alt="세종대왕" style={{ width: '100px', height: 'auto' }} />
+        <img src="/images/stage3/king.jpg" alt="세종대왕" style={{ width: '100px', height: 'auto' }} />
         <div className="bubble">
           <p>풍악을 울려라</p>
         </div>
