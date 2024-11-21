@@ -1,0 +1,26 @@
+.App {
+  text-align: center;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* 화면 전체를 차지하도록 설정 */
+}
+
+.stage-buttons {
+  display: flex;  /* 버튼들을 수평으로 정렬 */
+  justify-content: center; /* 버튼들을 화면 중앙에 배치 */
+  position: fixed; /* 상단에 고정 */
+  top: 20px; /* 상단에서의 간격 설정 */
+  left: 50%;
+  transform: translateX(-50%); /* 화면 중앙에 배치 */
+  z-index: 1000; /* 다른 요소 위에 표시되도록 설정 */
+}
+
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+  font-size: 16px;
+}
