@@ -2,15 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #f9f9f9;
-`;
-
 const Title = styled.h1`
     font-size: 2rem;
     margin-bottom: 1rem;
@@ -23,26 +14,31 @@ const Label = styled.label`
 
 const Button = styled.button`
     padding: 0.5rem 1rem;
-    background-color: #007bff;
+    background-color: ${({ disabled }) => (disabled ? "#a5d1ff" : "#007bff")};
     color: #fff;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
+    cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+    transition: background-color 0.3s ease;
+    font-weight:bold;
+    font-size:1rem;
 
-    &:disabled {
-        background-color: #a5d1ff;
-        cursor: not-allowed;
+    &:hover {
+        background-color: ${({ disabled }) => (disabled ? "#a5d1ff" : "#0056b3")};
     }
 `;
 
 const Input = styled.input`
-    padding: 0.5rem;
-    margin-bottom: 1rem;
+    padding: 0.8rem;
+    margin-bottom: 1.5rem;
     width: 100%;
     max-width: 300px;
     border: 1px solid #ccc;
     border-radius: 5px;
-`;
+    box-sizing: border-box;
+    font-size: 1rem;
+    height: 48px;`
+;
 
 const Message = styled.span`
     color: ${({ error }) => (error ? "red" : "green")};
@@ -166,7 +162,7 @@ const Register = () => {
     };
 
     return (
-        <Container>
+        <div className="stage-container">
             <Title>회원가입</Title>
             <form onSubmit={validateForm} autoComplete="off">
                 <Label htmlFor="id">아이디</Label>
@@ -213,7 +209,7 @@ const Register = () => {
             <Paragraph>
                 이미 계정이 있으신가요? <Link href="/login">여기에서 로그인</Link>
             </Paragraph>
-        </Container>
+        </div>
     );
 };
 

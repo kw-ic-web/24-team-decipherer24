@@ -1,16 +1,6 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom"; 
 import styled from "styled-components";
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    background-color: #f9f9f9;
-`;
 
 const Title = styled.h1`
     font-size: 2rem;
@@ -23,26 +13,46 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-    padding: 0.5rem;
-    margin-bottom: 1rem;
+    padding: 0.8rem;
+    margin-bottom: 1.5rem;
     width: 100%;
     max-width: 300px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    height: 48px;
 `;
 
 const Button = styled.button`
     padding: 0.5rem 1rem;
-    background-color: #007bff;
     color: #fff;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
+    cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+    transition: background-color 0.3s ease;
+    font-weight:bold;
+    font-size:1rem;
+
+    &:hover {
+        background-color: ${({ disabled }) => (disabled ? "#a5d1ff" : "#0056b3")};
+    }
 `;
-const RegisterLink = styled.div`
-    margin-top: 1rem;
+
+const Paragraph = styled.p`
+        margin-top: 1rem;
     font-size: 0.9rem;
+    color: #666;
 `;
+
+const Link = styled.a`
+        color: #007bff;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+`;
+
 
 const Login = () => {
     const [id, setId] = useState("");
@@ -67,7 +77,7 @@ const Login = () => {
 };
 
 return (
-    <Container>
+    <div className="stage-container">
         <Title>로그인</Title>
         <form onSubmit={handleLogin} autoComplete="off">
         <Label htmlFor="id">아이디</Label>
@@ -91,10 +101,10 @@ return (
         <br/>
         <Button type="submit">로그인</Button>
         </form>
-        <RegisterLink>
-                <p>회원가입이 아직 안되셨나요? <Link to="/register">회원가입</Link></p>
-            </RegisterLink>
-    </Container>
+        <Paragraph>
+            회원가입이 아직 안되셨나요? <Link href="/register">회원가입</Link>
+        </Paragraph>
+    </div>
     );
 };
 
