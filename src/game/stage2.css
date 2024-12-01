@@ -1,118 +1,109 @@
 body {
     font-family: 'Noto Serif KR', serif, sans-serif;
     background-color: #ebe9df;
-    display: flex;                 
-    flex-direction: column;        
-    align-items: center;           
-    justify-content: center;       
-    min-height: 100vh;             
-    margin: 0;      
-    font-size: 18px;       
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    font-size: 16px;
 }
 
-h1 {
-    align-items: center; 
-    font-size: 4em; 
+h1, h3 {
+    font-size: 2em;
     color: #c96b39;
-    margin-bottom: 20px;
-    font-family: 'Nanum Brush Script', cursive;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    margin: 10px 0;
 }
 
 p, h2 {
-    font-size: 1.8em;
-    color: #4B3D33; 
+    font-size: 1em;
+    color: #4B3D33;
     text-align: center;
-}
-
-h3 {
-    display: flex;
-    justify-content: center; 
-    align-items: center;  
-    font-size: 4em; 
-    color: #c96b39;
-    margin-bottom: 20px;
-    font-family: 'Nanum Brush Script', cursive;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .problem {
     background-color: #fffaf0;
-    padding: 15px;
-    border: 2px solid #8B4513;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin: 15px;
+    padding: 10px;
+    border: 1px solid #8B4513;
+    border-radius: 5px;
+    margin: 10px;
+    max-width: 90%;
 }
 
 .problem-image {
-    width: 100%;  
-    height: auto; 
-    max-width: 100%; 
-    max-height: 100%;
-    object-fit: cover; 
-    border: 3px solid #8B4513;
-    border-radius: 8px;
+    width: 100%;
+    height: auto;
+    border: 2px solid #8B4513;
+    border-radius: 5px;
+    object-fit: contain;
 }
 
 .game-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 10px;
 }
 
-.pieces {
-    display: flex;                  
-    flex-wrap: nowrap;              
-    gap: 10px;                      
+.pieces, .drop-zone-container {
+    display: flex;
+    gap: 5px;
     justify-content: center;
-    margin-bottom: 20px;
+    flex-wrap: nowrap; /* 한 줄로 고정 */
+    overflow-x: auto; /* 가로 스크롤 허용 */
+    max-width: 100%; /* 부모 컨테이너 너비에 맞춤 */
+    margin: 10px 0;
 }
 
-.piece {
-    width: 200px;                   
-    height: 400px;                  
+.piece, .dropped-piece {
+    flex-shrink: 0; /* 아이템 크기 고정 */
+    width: 100px;
+    height: 200px;
     margin: 5px;
     background-size: cover;
     border: 2px solid #8B4513;
     cursor: pointer;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    position: relative;
-}
-
-.dropped-piece {
-    width: 200px;                   
-    height: 400px;                  
-    background-size: cover;
-    position: relative;             
-}
-
-.drop-zone-container {
-    display: flex;
-    gap: 10px;
-    margin-top: 20px;
-    justify-content: center;       
 }
 
 .drop-zone {
-    width: 450px;                  
-    height: 400px;                 
-    border: 2px dashed #8B4513;
+    flex-shrink: 0; /* 아이템 크기 고정 */
+    width: 200px;
+    height: 200px;
+    border: 1px dashed #8B4513;
     background-color: rgba(243, 245, 228, 0);
     border-radius: 5px;
-    margin: 0 10px;
     display: flex;
     align-items: center;
-    justify-content: space-around; 
-    flex-direction: row;          
+    justify-content: center;
 }
 
 
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 10px;
+}
 
-#submit:disabled {
-    background-color: #ccc;        
-    cursor: not-allowed;           
+button {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #8B4513;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #A0522D;
 }
 
 #message {
@@ -120,65 +111,22 @@ h3 {
     color: #A52A2A;
     text-align: center;
     margin-top: 10px;
-    font-size: 24px; 
-}
-
-.button-container {
-    display: flex;
-    justify-content: center;
-    gap: 10px; 
-    margin-top: 20px;
-}
-
-button {
-    padding: 15px 25px; 
-    font-size: 24px; 
-    font-family: '나눔명조', serif;
-    background-color: #8B4513;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); 
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: #A0522D; 
-}
-
-
-#submit:disabled, #hint:disabled {
-    background-color: #ccc;        
-    cursor: not-allowed;         
-}
-
-
-#hintMessage {
-    text-align: center;  
-    font-size: 26px; 
-    color: rgb(255, 255, 255);  
-    margin: 0;  
-    line-height: 1.5;  
+    font-size: 16px;
 }
 
 .hint-container {
-    display: none; 
+    display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.8); 
-    color: rgb(0, 0, 0);
-    padding: 20px;
-    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
     text-align: center;
-    z-index: 1000; 
+    z-index: 1000;
     max-width: 80%;
-    max-height: 80%;  
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    overflow: auto;  
-    display: flex;  
-    align-items: center;  
-    justify-content: center;  
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    overflow: auto;
 }

@@ -1,3 +1,10 @@
+body {
+    font-family: 'Noto Sans KR', sans-serif; /* 한글에 적합한 폰트 */
+    background-color: #f0f0f0; /* 부드러운 배경 색상 */
+    margin: 0;
+    padding: 0;
+}
+
 .app-container {
     text-align: center;
     background-color: #fff; /* 흰색 배경 */
@@ -16,14 +23,18 @@
     cursor: pointer;
 }
 
-.stage3H1 {
+h1 {
     color: #E6B143; /* 한글날의 색상 */
     font-size: 2.5em; /* 제목 크기 */
 }
 
-.stage3H2 {
+h2 {
     color: #333; /* 부드러운 검정색 */
     font-size: 1.5em; /* 부제목 크기 */
+}
+
+h3 {
+    color: #28a745; /* 성공 메시지 색상 */
 }
 
 .image-container {
@@ -141,7 +152,7 @@ button[type="submit"]:hover {
     display: flex;
     align-items: center; /* 세로 중앙 정렬 */
     position: absolute; /* 절대 위치 */
-    bottom: 600px; /* 하단에서의 거리 조정 (위로 이동) */
+    bottom: 680px; /* 하단에서의 거리 조정 (위로 이동) */
     left: 20px; /* 왼쪽에서의 거리 */
     z-index: 1000; /* 다른 요소들 위에 표시 */
 }
@@ -166,5 +177,24 @@ button[type="submit"]:hover {
     border-color: transparent #E6B143 transparent transparent; /* 삼각형 색상 */
 }
 
+.back-button-container {
+    margin-top: 20px; /* Space above the button */
+    text-align: center; /* Center-align the button */
+}
+
+.back-button-container button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    background-color: #E6B143;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.back-button-container button:hover {
+    background-color: #d6a639;
+}
 
 

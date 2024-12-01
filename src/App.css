@@ -24,3 +24,6 @@ button {
   cursor: pointer;
   font-size: 16px;
 }
+area {
+  outline: 2px solid red; /* Debugging clickable areas */
+}
