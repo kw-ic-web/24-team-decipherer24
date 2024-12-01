@@ -177,5 +177,24 @@ button[type="submit"]:hover {
     border-color: transparent #E6B143 transparent transparent; /* 삼각형 색상 */
 }
 
+.back-button-container {
+    margin-top: 20px; /* Space above the button */
+    text-align: center; /* Center-align the button */
+}
+
+.back-button-container button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    background-color: #E6B143;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.back-button-container button:hover {
+    background-color: #d6a639;
+}
 
 

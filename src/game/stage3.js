@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-// import './stage3.css';
+import { useNavigate } from 'react-router-dom'; // useNavigate import 추가
+import './stage3.css';
 
 const App = () => {
   const [answer, setAnswer] = useState('');
@@ -9,6 +10,8 @@ const App = () => {
   const [clickCount, setClickCount] = useState(0);
   const audioRef = useRef(null);
   const [flyingObjectStyle, setFlyingObjectStyle] = useState({});
+  const navigate = useNavigate(); // navigate 사용
+  const [isSolved, setIsSolved] = useState(false);
 
   useEffect(() => {
     const moveObject = () => {
@@ -18,7 +21,7 @@ const App = () => {
         position: 'absolute',
         top: `${randomY}px`,
         left: `${randomX}px`,
-        transition: 'top 1s linear, left 1s linear'
+        transition: 'top 1s linear, left 1s linear',
       });
 
       setTimeout(moveObject, 3000);
@@ -35,6 +38,7 @@ const App = () => {
     e.preventDefault();
     if (answer === '아리랑') {
       setMessage('정답입니다!');
+      setIsSolved(true);
     } else {
       setMessage('틀렸습니다. 다시 시도해 보세요.');
     }
@@ -52,7 +56,7 @@ const App = () => {
   };
 
   const handleCatchHint = () => {
-    setClickCount(prevCount => prevCount + 1);
+    setClickCount((prevCount) => prevCount + 1);
     if (clickCount === 0) {
       setHintMessage(['직접 연주해보자!', '1=중 2=임 3=무 4=황 5=태']);
     } else if (clickCount === 1) {
@@ -65,31 +69,36 @@ const App = () => {
     setHintVisible(false);
   };
 
+  const handleBackToMap = () => {
+    navigate('/', { state: { startIndex: 2, solved: isSolved } }); // Pass solved state
+  };
+
+
   return (
     <div className="app-container">
       <h1>노래 제목을 맞춰라!</h1>
       <h2>단소 악보를 보고 정답을 입력하세요!</h2>
 
       <div className="image-container">
-    <div style={{ position: 'relative', display: 'inline-block' }}>
-        <img src="../assets/images/stage3/dansoo.png" alt="단소" className="image" />
-        {/* 단소 이미지 위에 버튼 추가 */}
-        <div className="button-container">
-            <button onClick={() => playSound('./assets/sounds/중.m4a')}>1</button>
-            <button onClick={() => playSound('./assets/sounds/임.m4a')}>2</button>
-            <button onClick={() => playSound('./assets/sounds/무.m4a')}>3</button>
-            <button onClick={() => playSound('./assets/sounds/황.m4a')}>4</button>
-            <button onClick={() => playSound('./assets/sounds/태.m4a')}>5</button>
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <img src="/images/stage3/dansoo.png" alt="단소" className="image" />
+          <div className="button-container">
+            <button onClick={() => playSound('/sounds/중.m4a')}>1</button>
+            <button onClick={() => playSound('/sounds/임.m4a')}>2</button>
+            <button onClick={() => playSound('/sounds/무.m4a')}>3</button>
+            <button onClick={() => playSound('/sounds/황.m4a')}>4</button>
+            <button onClick={() => playSound('/sounds/태.m4a')}>5</button>
+          </div>
         </div>
-    </div>
-    <img src="../assets/images/stage3/ak.png" alt="단소 악보" className="image" />
-</div>
+        <img src="/images/stage3/ak.png" alt="단소 악보" className="image" />
+      </div>
 
-
-      <div className="flying-object" style={flyingObjectStyle} onClick={handleCatchHint}>
-        <span role="img" aria-label="돋보기" style={{ fontSize: '80px' }}>
-          🔍
-        </span>
+      <div
+        className="flying-object"
+        style={flyingObjectStyle}
+        onClick={handleCatchHint}
+      >
+        <span role="img" aria-label="돋보기" style={{ fontSize: '80px' }}>🔍</span>
       </div>
 
       {hintVisible && (
@@ -101,6 +110,7 @@ const App = () => {
         </div>
       )}
 
+      {/* Form Section */}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -114,9 +124,17 @@ const App = () => {
 
       {message && <h3>{message}</h3>}
 
-      {/* 세종대왕 이미지와 말풍선 추가 */}
+      {/* Back Button Positioned Below */}
+      <div className="back-button-container">
+        <button onClick={handleBackToMap}>돌아가기</button>
+      </div>
+
       <div className="bubble-container">
-        <img src="../assets/images/stage3/king.jpg" alt="세종대왕" style={{ width: '100px', height: 'auto' }} />
+        <img
+          src="/images/stage3/king.jpg"
+          alt="세종대왕"
+          style={{ width: '100px', height: 'auto' }}
+        />
         <div className="bubble">
           <p>풍악을 울려라</p>
         </div>
