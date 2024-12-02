@@ -83,6 +83,33 @@ io.on("connection", (socket) => {
     callback({ success: true });
   });
 
+  // 실시간 채팅
+  socket.on("send_message", ({ roomName, message, sender }) => {
+    if (roomName && message) {
+      const timestamp = new Date().toISOString();
+      io.to(roomName).emit("receive_message", {
+        sender,
+        message,
+        timestamp,
+      });
+    }
+  });
+
+  // 클라이언트가 Offer를 보냄
+  socket.on("send_offer", ({ roomName, offer, sender }) => {
+    io.to(roomName).emit("receive_offer", { offer, sender });
+  });
+
+  // 클라이언트가 Answer를 보냄
+  socket.on("send_answer", ({ roomName, answer, sender }) => {
+    io.to(roomName).emit("receive_answer", { answer, sender });
+  });
+
+  // 클라이언트가 ICE candidate를 보냄
+  socket.on("send_ice_candidate", ({ roomName, candidate, sender }) => {
+    io.to(roomName).emit("receive_ice_candidate", { candidate, sender });
+  });
+
   // 사용자 연결 종료
   socket.on("disconnect", () => {
     const roomName = userRoomMap[socket.id];
@@ -96,13 +123,14 @@ io.on("connection", (socket) => {
         io.emit("room_list", rooms);
         io.to(roomName).emit("room_update", room);
       }
-      delete userRoomMap[socket.id];
     }
-    console.log(`User disconnected: ${socket.id}`);
+    delete userRoomMap[socket.id];
+    console.log(`Disconnected: ${socket.id}`);
   });
 });
 
-const PORT = 5000;
-server.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+
+
+server.listen(5000, () => {
+  console.log("Server running on http://localhost:5000");
 });
