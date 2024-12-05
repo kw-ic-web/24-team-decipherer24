@@ -25,8 +25,7 @@ const originalPositions = [
   { id: 'piece8', image: piece8, parent: null },
 ];
 
-const Stage2 = () => {
-  const navigate = useNavigate();
+const Stage2 = ({ onClose }) => {
   const { stageCompleted, setStageCompleted } = useStage(); // useStage 추가
 
   const [pieces, setPieces] = useState(originalPositions);
@@ -117,13 +116,13 @@ const Stage2 = () => {
     if (isCorrect) {
       setMessage("정답입니다! 🎉");
       setTimeout(() => {
-        navigate("/map", { state: { startIndex: 1, solved: true } }); // stage2 완료 후 map2로
+        // Call onClose here to close the dashboard (not navigate away)
+        onClose(); // Closes the dashboard without changing route
       }, 1000);
     } else {
       setMessage("틀렸습니다. 다시 시도하세요.");
     }
-  };  
-  
+  };
 
   const handleHint = () => {
     if (!submitAttempted) {
@@ -142,8 +141,10 @@ const Stage2 = () => {
     setTimeout(() => setMessage(''), 2000);
   };
 
+  // Modify handleGoBack function to only close the dashboard
   const handleGoBack = () => {
-    navigate('/map', { state: { startIndex: 1 } }); // `/map`으로 돌아가기
+    // Close the dashboard (not navigating away)
+    onClose();
   };
 
   return (
@@ -195,7 +196,7 @@ const Stage2 = () => {
         <button onClick={handleSubmit}>정답 확인</button>
         <button onClick={handleHint}>힌트</button>
         <button onClick={handleReset}>다시하기</button>
-        <button onClick={handleGoBack}>돌아가기</button>
+        <button onClick={handleGoBack}>돌아가기</button> {/* Call handleGoBack to close the dashboard */}
       </div>
 
       {message && <p id="message">{message}</p>}

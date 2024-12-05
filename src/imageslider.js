@@ -6,6 +6,10 @@ import map1 from './assets/images/map1.png';
 import map2 from './assets/images/map4.png';
 import map3 from './assets/images/map5.png';
 
+import Stage1 from './game/stage1'; // Ensure the path is correct
+import Stage2 from './game/stage2'; // Ensure the path is correct
+import Stage3 from './game/stage3'; // Ensure the path is correct
+
 import image1 from './assets/images/stage4/백.png';
 import image2 from './assets/images/stage4/성.png';
 import image3 from './assets/images/stage4/을.png';
@@ -60,12 +64,15 @@ const ImageSlider = () => {
   const [collectedCards, setCollectedCards] = useState([]);
   const [showDashboard, setShowDashboard] = useState(false);
   const [cardPositions, setCardPositions] = useState({});
-  const [inputValue, setInputValue] = useState('');
-  const [hintIndex, setHintIndex] = useState(0);
-  const [hintMessage, setHintMessage] = useState('');
-  const [isSolved, setIsSolved] = useState(false);
+  const [showStage1, setShowStage1] = useState(false);
+  const [showStage2, setShowStage2] = useState(false);
+  const [showStage3, setShowStage3] = useState(false);
 
   const hints = ['훈민정음의 뜻풀이', 'ㅂㅅㅇ ㄱㄹㅊㄴ ㅂㄹ ㅅㄹ'];
+
+  const [inputValue, setInputValue] = useState('');
+  const [hintMessage, setHintMessage] = useState('');
+  const [hintIndex, setHintIndex] = useState(0);
 
   useEffect(() => {
     if (location.state?.solved) {
@@ -83,7 +90,42 @@ const ImageSlider = () => {
   };
 
   const startGame = () => {
-    navigate(`/game/stage${currentIndex + 1}`, { state: { stageIndex: currentIndex } });
+    if (currentIndex === 0) {
+      setShowStage1(true); // Show Stage1 for map1
+    } else if (currentIndex === 1) {
+      setShowStage2(true); // Show Stage2 for map2
+    } else if (currentIndex === 2) {
+      setShowStage3(true); // Show Stage3 for map3
+    } else {
+      navigate(`/game/stage${currentIndex + 1}`, { state: { stageIndex: currentIndex } });
+    }
+  };
+
+  const closeStage1 = () => {
+    setShowStage1(false);
+    setStageCompleted((prev) => {
+      const updated = [...prev];
+      updated[0] = true; // Mark Stage1 as complete
+      return updated;
+    });
+  };
+
+  const closeStage2 = () => {
+    setShowStage2(false);
+    setStageCompleted((prev) => {
+      const updated = [...prev];
+      updated[1] = true; // Mark Stage2 as complete
+      return updated;
+    });
+  };
+
+  const closeStage3 = () => {
+    setShowStage3(false);
+    setStageCompleted((prev) => {
+      const updated = [...prev];
+      updated[2] = true; // Mark Stage3 as complete
+      return updated;
+    });
   };
 
   const nextImage = () => {
@@ -107,30 +149,6 @@ const ImageSlider = () => {
     }
   };
 
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  const checkAnswer = () => {
-    const answer = '백성을 가르치는 바른 소리';
-    if (inputValue === answer) {
-      setIsSolved(true);
-      setStageCompleted((prev) => {
-        const updated = [...prev];
-        updated[currentIndex] = true;
-        return updated;
-      });
-      alert('정답입니다! 🎉');
-    } else {
-      alert('틀렸습니다.');
-    }
-  };
-
-  const provideHint = () => {
-    setHintMessage(hints[hintIndex]);
-    setHintIndex((prev) => (prev + 1) % hints.length);
-  };
-
   const toggleDashboard = () => {
     setShowDashboard(!showDashboard);
   };
@@ -150,6 +168,20 @@ const ImageSlider = () => {
       ...prev,
       [cardId]: { left: x, top: y },
     }));
+  };
+
+  const checkAnswer = () => {
+    const answer = '백성을 가르치는 바른 소리'; // Define the correct answer
+    if (inputValue === answer) {
+      alert('정답입니다! 🎉');
+    } else {
+      alert('틀렸습니다.');
+    }
+  };
+
+  const provideHint = () => {
+    setHintMessage(hints[hintIndex]);
+    setHintIndex((prev) => (prev + 1) % hints.length);
   };
 
   return (
@@ -266,6 +298,63 @@ const ImageSlider = () => {
           <button onClick={checkAnswer}>정답 확인</button>
           <button onClick={provideHint}>힌트 보기</button>
           {hintMessage && <p>힌트: {hintMessage}</p>}
+        </div>
+      )}
+      {showStage1 && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            background: 'white',
+            padding: '20px',
+            width: '80%',
+            height: '80%',
+            overflow: 'auto',
+            border: '1px solid #ccc',
+            borderRadius: '10px',
+          }}
+        >
+          <Stage1 onClose={closeStage1} />
+        </div>
+      )}
+      {showStage2 && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            background: 'white',
+            padding: '20px',
+            width: '80%',
+            height: '80%',
+            overflow: 'auto',
+            border: '1px solid #ccc',
+            borderRadius: '10px',
+          }}
+        >
+          <Stage2 onClose={closeStage2} />
+        </div>
+      )}
+      {showStage3 && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            background: 'white',
+            padding: '20px',
+            width: '80%',
+            height: '80%',
+            overflow: 'auto',
+            border: '1px solid #ccc',
+            borderRadius: '10px',
+          }}
+        >
+          <Stage3 onClose={closeStage3} />
         </div>
       )}
     </div>

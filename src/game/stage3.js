@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './stage3.css';
 
-const Stage3 = () => {
+const Stage3 = ({ onClose }) => { // Add onClose prop
   const [answer, setAnswer] = useState('');
   const [message, setMessage] = useState('');
   const [hintVisible, setHintVisible] = useState(false);
@@ -10,7 +10,6 @@ const Stage3 = () => {
   const [clickCount, setClickCount] = useState(0);
   const audioRef = useRef(null);
   const [flyingObjectStyle, setFlyingObjectStyle] = useState({});
-  const navigate = useNavigate();
   const [isSolved, setIsSolved] = useState(false);
 
   useEffect(() => {
@@ -38,14 +37,10 @@ const Stage3 = () => {
     e.preventDefault();
     if (answer === "아리랑") {
       setMessage("정답입니다!");
-      setTimeout(() => navigate("/map", { state: { startIndex: 2, solved: true } }), 1000); // 항상 Map3으로 이동
+      setTimeout(() => onClose(), 1000); // Close the dashboard after correct answer
     } else {
       setMessage("틀렸습니다. 다시 시도해 보세요.");
     }
-  };
-
-  const handleBackToMap = () => {
-    navigate("/map", { state: { startIndex: 2 } }); // 항상 Map3으로 이동
   };
 
   const playSound = (soundFile) => {
@@ -70,6 +65,11 @@ const Stage3 = () => {
 
   const closeHint = () => {
     setHintVisible(false);
+  };
+
+  // Modify handleGoBack function to close the dashboard (no navigation)
+  const handleBackToMap = () => {
+    onClose(); // Close the dashboard instead of navigating away
   };
 
   return (
@@ -126,7 +126,7 @@ const Stage3 = () => {
 
       {/* Back Button Positioned Below */}
       <div className="back-button-container">
-        <button onClick={handleBackToMap}>돌아가기</button>
+        <button onClick={handleBackToMap}>돌아가기</button> {/* Close the dashboard */}
       </div>
 
       <div className="bubble-container">
