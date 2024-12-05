@@ -1,0 +1,197 @@
+body {
+    font-family: 'Noto Serif KR', serif, sans-serif;
+    background-color: #ebe9df;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    font-size: 16px;
+}
+
+h1, h3 {
+    font-size: 2em;
+    color: #c96b39;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    margin: 10px 0;
+}
+
+p, h2 {
+    font-size: 1em;
+    color: #4B3D33;
+    text-align: center;
+}
+
+.problem {
+    background-color: #fffaf0;
+    padding: 10px;
+    border: 1px solid #8B4513;
+    border-radius: 5px;
+    margin: 10px;
+    max-width: 90%;
+}
+
+.problem-image {
+    width: 100%;
+    height: auto;
+    border: 2px solid #8B4513;
+    border-radius: 5px;
+    object-fit: contain;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+}
+
+.pieces, .drop-zone-container {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    flex-wrap: nowrap; /* 한 줄로 고정 */
+    overflow-x: auto; /* 가로 스크롤 허용 */
+    max-width: 100%; /* 부모 컨테이너 너비에 맞춤 */
+    margin: 10px 0;
+}
+
+.piece, .dropped-piece {
+    flex-shrink: 0; /* 아이템 크기 고정 */
+    width: 100px;
+    height: 200px;
+    margin: 5px;
+    background-size: cover;
+    border: 2px solid #8B4513;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.drop-zone {
+    flex-shrink: 0; /* 아이템 크기 고정 */
+    width: 200px;
+    height: 200px;
+    border: 1px dashed #8B4513;
+    background-color: rgba(243, 245, 228, 0);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.button-container2 {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.stage2btn {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #8B4513;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+}
+
+.stage2btn:hover {
+    background-color: #A0522D;
+}
+
+#message {
+    font-weight: bold;
+    color: #A52A2A;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.hint-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    z-index: 1000;
+    max-width: 80%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+}
+.hint-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .hint-box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    position: relative;
+    width: 50%;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 18px;
+    border: none;
+    background: none;
+    cursor: pointer;
+
+  }
+  
+
+  .hint-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .hint-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    position: relative;
+  }
+  
+  .close-hint {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
