@@ -5,6 +5,7 @@ import { useStage } from './StageContext';
 import map1 from './assets/images/map1.png';
 import map2 from './assets/images/map4.png';
 import map3 from './assets/images/map5.png';
+import outro from './assets/images/outro.png';
 
 import image1 from './assets/images/stage4/백.png';
 import image2 from './assets/images/stage4/성.png';
@@ -64,6 +65,7 @@ const ImageSlider = () => {
   const [hintIndex, setHintIndex] = useState(0);
   const [hintMessage, setHintMessage] = useState('');
   const [isSolved, setIsSolved] = useState(false);
+  const [showOutro, setShowOutro] = useState(false); // 추가
 
   const hints = ['훈민정음의 뜻풀이', 'ㅂㅅㅇ ㄱㄹㅊㄴ ㅂㄹ ㅅㄹ'];
 
@@ -120,7 +122,7 @@ const ImageSlider = () => {
         updated[currentIndex] = true;
         return updated;
       });
-      alert('정답입니다! 🎉');
+      setShowOutro(true); // outro 이미지 표시
     } else {
       alert('틀렸습니다.');
     }
@@ -152,8 +154,21 @@ const ImageSlider = () => {
     }));
   };
 
+  if (showOutro) {
+    return (
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: '#000' }}>
+        <img
+          src={outro}
+          alt="Outro"
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+      </div>
+    );
+  }
+
   return (
     <div style={{ position: 'relative', textAlign: 'center' }}>
+      {/* 기존 UI */}
       <p style={{ margin: '10px 0', fontSize: '1.2em', color: '#555' }}>
         이미지를 클릭하여 카드를 찾고 문제를 해결하세요.
       </p>
@@ -218,56 +233,59 @@ const ImageSlider = () => {
         {showDashboard ? '대시보드 닫기' : '대시보드 열기'}
       </button>
       {showDashboard && (
-        <div
-          id="dashboard"
-          style={{
-            position: 'fixed',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            background: 'white',
-            padding: '20px',
-            width: '80%',
-            height: '80%',
-            overflow: 'auto',
-            border: '1px solid #ccc',
-            borderRadius: '10px',
-          }}
-          onDrop={handleDrop}
-          onDragOver={(e) => e.preventDefault()}
-        >
-          <h2>대시보드</h2>
-          <p>
-            수집된 카드: {collectedCards.length} / {cards.length}
-          </p>
-          {collectedCards.map((card) => (
-            <div
-              key={card.id}
-              style={{
-                position: 'absolute',
-                left: cardPositions[card.id]?.left || 0,
-                top: cardPositions[card.id]?.top || 0,
-                width: '100px',
-                height: '130px',
-              }}
-              draggable
-              onDragStart={(e) => handleDragStart(e, card.id)}
-            >
-              <img src={card.image} alt={card.label} style={{ width: '100%', height: '100%' }} />
-            </div>
-          ))}
-          <input
-            type="text"
-            placeholder="정답 입력"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            style={{ display: 'block', margin: '10px auto', padding: '5px' }}
-          />
-          <button onClick={checkAnswer}>정답 확인</button>
-          <button onClick={provideHint}>힌트 보기</button>
-          {hintMessage && <p>힌트: {hintMessage}</p>}
-        </div>
-      )}
+      <div
+        id="dashboard"
+        style={{
+          position: 'fixed',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          background: 'white',
+          padding: '20px',
+          width: '80%',
+          height: '80%',
+          overflow: 'auto',
+          border: '1px solid #ccc',
+          borderRadius: '10px',
+        }}
+        onDrop={handleDrop}
+        onDragOver={(e) => e.preventDefault()}
+      >
+        <h2>대시보드</h2>
+        <p style={{ fontWeight: 'bold', marginBottom: '15px' }}>
+          한글의 첫 이름으로 세종대왕이 창제한 문자의 명칭이자 훈민정음의 창제 원리와 사용법 등을 해설해 놓은 책의 제목을 나타내는 단어의 뜻을 풀어써라.
+        </p>
+        <p>
+          수집된 카드: {collectedCards.length} / {cards.length}
+        </p>
+        {collectedCards.map((card) => (
+          <div
+            key={card.id}
+            style={{
+              position: 'absolute',
+              left: cardPositions[card.id]?.left || 0,
+              top: cardPositions[card.id]?.top || 0,
+              width: '100px',
+              height: '130px',
+            }}
+            draggable
+            onDragStart={(e) => handleDragStart(e, card.id)}
+          >
+            <img src={card.image} alt={card.label} style={{ width: '100%', height: '100%' }} />
+          </div>
+        ))}
+        <input
+          type="text"
+          placeholder="정답 입력"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          style={{ display: 'block', margin: '10px auto', padding: '5px' }}
+        />
+        <button onClick={checkAnswer}>정답 확인</button>
+        <button onClick={provideHint}>힌트 보기</button>
+        {hintMessage && <p>힌트: {hintMessage}</p>}
+      </div>
+    )}
     </div>
   );
 };
