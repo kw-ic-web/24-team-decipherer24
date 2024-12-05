@@ -126,7 +126,7 @@ const Stage3 = () => {
 
       {/* Back Button Positioned Below */}
       <div className="back-button-container">
-        <button onClick={handleBackToMap}>돌아가기</button>
+        <button className="stage3btn" onClick={handleBackToMap}>돌아가기</button>
       </div>
 
       <div className="bubble-container">

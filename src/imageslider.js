@@ -65,6 +65,8 @@ const ImageSlider = () => {
   const [hintIndex, setHintIndex] = useState(0);
   const [hintMessage, setHintMessage] = useState('');
   const [isSolved, setIsSolved] = useState(false);
+  const [showStage, setShowStage] = useState(false); // 스테이지 표시 상태
+  const [currentStage, setCurrentStage] = useState(null); // 현재 표시할 스테이지
 
   useEffect(() => {
     if (location.state?.solved) {

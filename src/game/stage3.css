@@ -64,7 +64,7 @@ h3 {
     gap: 1px; /* 버튼 간의 간격 조정 */
 }
 
-.button-container button {
+.stage3btn {
     padding: 10px 15px; /* 버튼의 상하, 좌우 패딩 조정 */
     font-size: 5px; /* 버튼 글꼴 크기 조정 */
     width: 50px;
@@ -78,13 +78,7 @@ h3 {
     transition: background-color 0.3s, transform 0.2s; /* 부드러운 효과 */
 }
 
-.button-container button:hover {
-    background-color: #d6a639; /* 호버 시 색상 변화 */
-    transform: translateY(-2px); /* 버튼 상승 효과 */
-}
-
-
-.button-container button {
+.stage3btn {
     padding: 15px 20px; /* 패딩 증가하여 버튼 크기 조정 */
     margin: 5px;
     border: none;
@@ -95,7 +89,7 @@ h3 {
     transition: background-color 0.3s, transform 0.2s; /* 부드러운 효과 */
 }
 
-.button-container button:hover {
+.stage3btn:hover {
     background-color: #d6a639; /* 호버 시 색상 변화 */
     transform: translateY(-2px); /* 버튼 상승 효과 */
 }

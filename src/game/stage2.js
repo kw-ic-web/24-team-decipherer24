@@ -99,7 +99,7 @@ const Stage2 = () => {
       setTimeout(() => setMessage(''), 2000);
       return;
     }
-  
+
     let isCorrect = true;
     for (let zoneId in dropData) {
       const droppedPieces = dropData[zoneId];
@@ -112,34 +112,33 @@ const Stage2 = () => {
         break;
       }
     }
-  
+
     setSubmitAttempted(true);
     if (isCorrect) {
-      setMessage("정답입니다! 🎉");
+      setMessage('정답입니다! 🎉');
       setTimeout(() => {
-        navigate("/map", { state: { startIndex: 1, solved: true } }); // stage2 완료 후 map2로
+        navigate('/map', { state: { startIndex: 1, solved: true } }); // stage2 완료 후 map2로
       }, 1000);
     } else {
-      setMessage("틀렸습니다. 다시 시도하세요.");
+      setMessage('틀렸습니다. 다시 시도하세요.');
     }
-  };  
-  
+  };
 
   const handleHint = () => {
     if (!submitAttempted) {
       setMessage('먼저 정답 확인을 해주세요.');
-    } else if (!hintUsed && !showHint) {
+    } else if (!hintUsed) {
       setShowHint(true);
-      setMessage('힌트를 사용하였습니다.');
       setHintUsed(true);
-    } else if (showHint) {
-      setShowHint(false);
-      setMessage('');
     } else {
       setMessage('힌트는 한 번만 사용할 수 있습니다.');
     }
 
     setTimeout(() => setMessage(''), 2000);
+  };
+
+  const closeHint = () => {
+    setShowHint(false);
   };
 
   const handleGoBack = () => {
@@ -191,17 +190,27 @@ const Stage2 = () => {
         </div>
       </div>
 
-      <div className="button-container">
-        <button onClick={handleSubmit}>정답 확인</button>
-        <button onClick={handleHint}>힌트</button>
-        <button onClick={handleReset}>다시하기</button>
-        <button onClick={handleGoBack}>돌아가기</button>
+      <div className="button-container2">
+        <button className='stage2btn' onClick={handleSubmit}>정답 확인</button>
+        <button className='stage2btn' onClick={handleHint}>힌트</button>
+        <button className='stage2btn' onClick={handleReset}>다시하기</button>
+        <button className='stage2btn' onClick={handleGoBack}>돌아가기</button>
       </div>
 
       {message && <p id="message">{message}</p>}
       {showHint && (
-        <div id="hintContainer" className="hint-container">
-          <p id="hintMessage">힌트: 나라의 말이 '중국'과 달라 문자와 서로 통하지 아니하니...</p>
+        <div id="hintModal" className="hint-modal">
+          <div className="hint-content">
+            <button className="close-hint" onClick={closeHint}>
+              &times;
+            </button>
+            <p id="hintMessage">
+                        힌트: 나라의 말이 '중국'과 달라 문자와 서로 통하지 아니하니,<br />
+                        이런 까닭으로 어리석은 백성이 이르고자 할 바가 있어도 마침내 '제 뜻을 능히 펴지 못할 사람'이 많으니라.<br />
+                        내가 이를 위하여 가엾이 여겨 새로 '스물여덟' 자를 만드노니,<br />
+                        사람마다 하여금 '쉬이 익혀 날로 씀에 편하게 하고자' 할 따름이니라.
+                    </p>          
+            </div>
         </div>
       )}
     </div>
