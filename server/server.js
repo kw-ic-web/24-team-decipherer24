@@ -2,6 +2,13 @@ const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();  
+const User = require('../src/models/User.js');
+const authRoutes = require('../src/models/auth.js'); 
+const PORT = 5000;
 
 const app = express();
 const server = http.createServer(app);
@@ -12,11 +19,96 @@ const io = new Server(server, {
   },
 });
 
-app.use(cors());
+app.use(express.static('public'));
+app.use(cors({
+  origin: "http://localhost:3000", // 허용할 클라이언트 URL
+  methods: ["GET", "POST"],
+  credentials: true,
+}));
+app.use('/api', authRoutes);
 
-let rooms = []; // 방 목록
-let userRoomMap = {}; // 사용자와 방 매핑
 
+const mongoURI = 'mongodb+srv://hyobinn2364:dkssud12@web.lgkop.mongodb.net/users'; 
+
+mongoose.connect(mongoURI,{
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => {
+    console.log("MongoDB 연결 성공!");
+  })
+  .catch(err => {
+    console.error("MongoDB 연결 실패:", err);
+  });
+
+  app.get("/", (req, res) => {
+    res.status(200).json({ rooms });
+  });
+
+  app.post("/api/check-id", async (req, res) => {
+    const { id } = req.body;
+    try {
+      const user = await User.findOne({ id });
+      if (user) {
+        res.json({ exists: true });
+      } else {
+        res.json({ exists: false });
+      }
+    } catch (err) {
+      console.error('아이디 중복 확인 오류:', err);
+      res.status(500).json({ message: "아이디 중복 확인 실패" });
+    }
+  });
+  
+
+// 회원가입 API
+app.post('/api/register', async (req, res) => {
+  try {
+    const { id, password } = req.body;
+
+    // 중복 아이디 확인
+    const existingUser = await User.findOne({ id });
+    if (existingUser) {
+      return res.status(400).json({ error: 'ID가 이미 사용 중입니다.' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10); // 비밀번호 해싱
+    const newUser = new User({ id, password: hashedPassword });
+    await newUser.save();
+
+    res.status(201).json({ message: '회원가입 성공' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '회원가입 중 오류가 발생했습니다.' });
+  }
+});
+
+// 로그인 API
+app.post('/api/login', async (req, res) => {
+  try {
+    const { id, password } = req.body;
+
+    // 사용자 찾기
+    const user = await User.findOne({ id });
+    if (!user) return res.status(404).json({ error: '사용자를 찾을 수 없습니다.' });
+
+    // 비밀번호 비교
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) return res.status(400).json({ error: '비밀번호가 잘못되었습니다.' });
+
+    // JWT 토큰 발급
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+
+    res.json({ token, user: { id: user._id } });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: '로그인 중 오류가 발생했습니다.' });
+  }
+});
+
+
+let rooms = []; 
+let userRoomMap = {}; 
 io.on("connection", (socket) => {
   console.log(`New connection: ${socket.id}`);
 
@@ -129,8 +221,9 @@ io.on("connection", (socket) => {
   });
 });
 
-
-
-server.listen(5000, () => {
-  console.log("Server running on http://localhost:5000");
+server.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+
+

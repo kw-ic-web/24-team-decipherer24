@@ -231,21 +231,40 @@ const ImageSlider = () => {
           ←
         </button>
       )}
+
       {currentIndex < images.length - 1 && (
         <button
           onClick={nextImage}
-          disabled={!stageCompleted[currentIndex]}
+          disabled={!stageCompleted[currentIndex]} // 현재 스테이지 완료 상태를 검사
           style={{
             position: 'absolute',
             top: '50%',
             right: '10px',
             transform: 'translateY(-50%)',
-            cursor: stageCompleted[currentIndex] ? 'pointer' : 'not-allowed',
+            cursor: stageCompleted[currentIndex] ? 'pointer' : 'not-allowed', // 커서 스타일도 조건에 맞게 수정
           }}
         >
           →
         </button>
       )}
+
+
+      {currentIndex < images.length - 1 && (
+        <button
+          onClick={nextImage}
+          disabled={!stageCompleted[currentIndex]} // 현재 스테이지 완료 상태를 검사
+          style={{
+            position: 'absolute',
+            top: '50%',
+            right: '10px',
+            transform: 'translateY(-50%)',
+            cursor: stageCompleted[currentIndex] ? 'pointer' : 'not-allowed', // 커서 스타일도 조건에 맞게 수정
+          }}
+        >
+          →
+        </button>
+      )}
+
       <button onClick={toggleDashboard} style={{ marginTop: '20px' }}>
         {showDashboard ? '대시보드 닫기' : '대시보드 열기'}
       </button>

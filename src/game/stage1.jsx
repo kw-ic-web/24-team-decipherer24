@@ -222,6 +222,7 @@ const Stage1 = ({ onClose }) => {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
+            height: '50px',
             width: '400px',
             backgroundColor: 'white',
             padding: '20px',
@@ -252,3 +253,4 @@ const Stage1 = ({ onClose }) => {
 };
 
 export default Stage1;
+

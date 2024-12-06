@@ -9,7 +9,6 @@ const Container = styled.div`
   height: 100vh; /* 화면 높이를 가득 채움 */
   background-color: #f9f9f9;
 `;
-
 const FormWrapper = styled.div`
   width: 100%;
   max-width: 400px;
@@ -19,7 +18,12 @@ const FormWrapper = styled.div`
   background-color: #fff;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
 `;
+
 
 const Title = styled.h1`
   font-size: 2rem;
@@ -97,7 +101,7 @@ const Login = () => {
   };
 
   return (
-    <Container>
+    <>
       <FormWrapper>
         <Title>로그인</Title>
         <form onSubmit={handleLogin} autoComplete="off">
@@ -108,7 +112,7 @@ const Login = () => {
             value={id}
             onChange={(e) => setId(e.target.value)}
             required
-            autoComplete="new-id"
+            autoComplete="new-id"npm
           />
           <Label htmlFor="password">비밀번호</Label>
           <Input
@@ -125,7 +129,7 @@ const Login = () => {
           회원가입이 아직 안되셨나요? <Link href="/register">회원가입</Link>
         </Paragraph>
       </FormWrapper>
-    </Container>
+    </>
   );
 };
 
