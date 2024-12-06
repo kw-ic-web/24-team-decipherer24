@@ -147,6 +147,10 @@ const Stage2 = ({ onClose }) => {
     onClose();
   };
 
+  const closeHint = () => {
+    setShowHint(false);
+  };
+
   return (
     <div>
       <h3>왕의 휘장을 맞춰보세요!</h3>
@@ -192,17 +196,28 @@ const Stage2 = ({ onClose }) => {
         </div>
       </div>
 
-      <div className="button-container">
-        <button onClick={handleSubmit}>정답 확인</button>
-        <button onClick={handleHint}>힌트</button>
-        <button onClick={handleReset}>다시하기</button>
-        <button onClick={handleGoBack}>돌아가기</button> {/* Call handleGoBack to close the dashboard */}
+      <div className="button-container2">
+        <button className='stage2btn' onClick={handleSubmit}>정답 확인</button>
+        <button className='stage2btn' onClick={handleHint}>힌트</button>
+        <button className='stage2btn' onClick={handleReset}>다시하기</button>
+        <button className='stage2btn' onClick={handleGoBack}>돌아가기</button> {/* Call handleGoBack to close the dashboard */}
       </div>
 
       {message && <p id="message">{message}</p>}
       {showHint && (
-        <div id="hintContainer" className="hint-container">
-          <p id="hintMessage">힌트: 나라의 말이 '중국'과 달라 문자와 서로 통하지 아니하니...</p>
+        <div id="hintContainer" className="hint-popup">
+          <div className="hint-content">
+            <button className="close-btn" onClick={closeHint}>
+              X
+            </button>
+            <p>
+              힌트: 나라의 말이 '중국'과 달라 문자와 서로 통하지 아니하니, <br />
+              이런 까닭으로 어리석은 백성이 이르고자 할 바가 있어도 마침내 '제 뜻을 능히 펴지 못할 사람'이 많으니라.
+              <br />
+              내가 이를 위하여 가엾이 여겨 새로 '스물여덟' 자를 만드노니, <br />
+              사람마다 하여금 '쉬이 익혀 날로 씀에 편하게 하고자' 할 따름이니라.
+            </p>
+          </div>
         </div>
       )}
     </div>

@@ -215,7 +215,7 @@ const ImageSlider = () => {
         </map>
       </div>
       <button onClick={startGame} style={{ marginTop: '10px', marginBottom: '10px' }}>
-        게임 시작
+        미니 게임 시작
       </button>
       {currentIndex > 0 && (
         <button
