@@ -250,7 +250,7 @@ const ImageSlider = () => {
         </map>
       </div>
       <button onClick={startGame} style={{ marginTop: '10px', marginBottom: '10px' }}>
-        {showStage1 || showStage2 || showStage3 ? '미니 게임 닫기' : '미니 게임 시작'}
+        {showStage1 || showStage2 || showStage3 ? '미니게임 닫기' : '미니게임 열기'}
       </button>
       {currentIndex > 0 && (
         <button
