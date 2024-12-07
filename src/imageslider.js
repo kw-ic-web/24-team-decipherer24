@@ -22,6 +22,8 @@ import image9 from './assets/images/stage4/른.png';
 import image10 from './assets/images/stage4/소.png';
 import image11 from './assets/images/stage4/리.png';
 
+import outro from './assets/images/outro.png'; // Add outro image import
+
 const images = [map1, map2, map3];
 
 const cards = [
@@ -67,6 +69,7 @@ const ImageSlider = () => {
   const [showStage1, setShowStage1] = useState(false);
   const [showStage2, setShowStage2] = useState(false);
   const [showStage3, setShowStage3] = useState(false);
+  const [showOutro, setShowOutro] = useState(false); // State for outro
 
   const hints = ['훈민정음의 뜻풀이', 'ㅂㅅㅇ ㄱㄹㅊㄴ ㅂㄹ ㅅㄹ'];
 
@@ -87,6 +90,10 @@ const ImageSlider = () => {
       updated[index] = true;
       return updated;
     });
+  };
+
+  const showOutroImage = () => {
+    setShowOutro(true); // Function to show outro image
   };
 
   const startGame = () => {
@@ -126,6 +133,11 @@ const ImageSlider = () => {
       updated[2] = true; // Mark Stage3 as complete
       return updated;
     });
+
+    // Check if all stages are completed, then show outro
+    if (stageCompleted.every((stage) => stage)) {
+      showOutroImage();
+    }
   };
 
   const nextImage = () => {
@@ -174,6 +186,9 @@ const ImageSlider = () => {
     const answer = '백성을 가르치는 바른 소리'; // Define the correct answer
     if (inputValue === answer) {
       alert('정답입니다! 🎉');
+      if (stageCompleted.every((stage) => stage)) {
+        showOutroImage();
+      }
     } else {
       alert('틀렸습니다.');
     }
@@ -183,6 +198,18 @@ const ImageSlider = () => {
     setHintMessage(hints[hintIndex]);
     setHintIndex((prev) => (prev + 1) % hints.length);
   };
+
+  if (showOutro) {
+    return (
+      <div style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: '#000' }}>
+        <img
+          src={outro}
+          alt="Outro"
+          style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div style={{ position: 'relative', textAlign: 'center' }}>
@@ -231,23 +258,6 @@ const ImageSlider = () => {
           ←
         </button>
       )}
-
-      {currentIndex < images.length - 1 && (
-        <button
-          onClick={nextImage}
-          disabled={!stageCompleted[currentIndex]} // 현재 스테이지 완료 상태를 검사
-          style={{
-            position: 'absolute',
-            top: '50%',
-            right: '10px',
-            transform: 'translateY(-50%)',
-            cursor: stageCompleted[currentIndex] ? 'pointer' : 'not-allowed', // 커서 스타일도 조건에 맞게 수정
-          }}
-        >
-          →
-        </button>
-      )}
-
 
       {currentIndex < images.length - 1 && (
         <button
