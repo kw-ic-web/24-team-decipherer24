@@ -134,7 +134,7 @@ const Stage1 = ({ onClose }) => {
         style={{
           position: 'relative',
           width: '1200px',
-          height: '450px',
+          height: '480px',
           border: '2px dashed #000',
           margin: '20px auto',
           backgroundImage: 'url(/images/stage1.png)',
@@ -186,9 +186,6 @@ const Stage1 = ({ onClose }) => {
         </button>
         <button onClick={handleReset} style={{ margin: '5px' }}>
           리셋
-        </button>
-        <button onClick={onClose} style={{ margin: '5px' }}>
-          돌아가기
         </button>
         <button onClick={() => handleHint(1)}>힌트1</button>
         <button

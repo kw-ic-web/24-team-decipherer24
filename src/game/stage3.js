@@ -126,7 +126,7 @@ const Stage3 = ({ onClose }) => { // Add onClose prop
 
       {/* Back Button Positioned Below */}
       <div className="back-button-container">
-        <button onClick={handleBackToMap}>돌아가기</button> {/* Close the dashboard */}
+        <button >숫자들을 누르면 단소 소리가 나요!</button> {/* Close the dashboard */}
       </div>
 
       <div className="bubble-container">

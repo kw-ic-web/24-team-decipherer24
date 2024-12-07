@@ -30,11 +30,12 @@ p, h2 {
     border: 1px solid #8B4513;
     border-radius: 5px;
     margin: 10px;
-    max-width: 90%;
+    max-width: 70%;
+    margin-left: 200px;
 }
 
 .problem-image {
-    width: 100%;
+    width: 70%;
     height: auto;
     border: 2px solid #8B4513;
     border-radius: 5px;

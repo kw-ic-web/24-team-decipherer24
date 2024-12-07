@@ -200,7 +200,6 @@ const Stage2 = ({ onClose }) => {
         <button className='stage2btn' onClick={handleSubmit}>정답 확인</button>
         <button className='stage2btn' onClick={handleHint}>힌트</button>
         <button className='stage2btn' onClick={handleReset}>다시하기</button>
-        <button className='stage2btn' onClick={handleGoBack}>돌아가기</button> {/* Call handleGoBack to close the dashboard */}
       </div>
 
       {message && <p id="message">{message}</p>}

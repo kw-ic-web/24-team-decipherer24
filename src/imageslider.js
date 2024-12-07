@@ -97,14 +97,22 @@ const ImageSlider = () => {
   };
 
   const startGame = () => {
-    if (currentIndex === 0) {
-      setShowStage1(true); // Show Stage1 for map1
-    } else if (currentIndex === 1) {
-      setShowStage2(true); // Show Stage2 for map2
-    } else if (currentIndex === 2) {
-      setShowStage3(true); // Show Stage3 for map3
+    if (showStage1 || showStage2 || showStage3) {
+      // If any stage is already open, close all stages
+      setShowStage1(false);
+      setShowStage2(false);
+      setShowStage3(false);
     } else {
-      navigate(`/game/stage${currentIndex + 1}`, { state: { stageIndex: currentIndex } });
+      // Otherwise, start the game based on the current index
+      if (currentIndex === 0) {
+        setShowStage1(true); // Show Stage1 for map1
+      } else if (currentIndex === 1) {
+        setShowStage2(true); // Show Stage2 for map2
+      } else if (currentIndex === 2) {
+        setShowStage3(true); // Show Stage3 for map3
+      } else {
+        navigate(`/game/stage${currentIndex + 1}`, { state: { stageIndex: currentIndex } });
+      }
     }
   };
 
@@ -242,7 +250,7 @@ const ImageSlider = () => {
         </map>
       </div>
       <button onClick={startGame} style={{ marginTop: '10px', marginBottom: '10px' }}>
-        미니 게임 시작
+        {showStage1 || showStage2 || showStage3 ? '미니 게임 닫기' : '미니 게임 시작'}
       </button>
       {currentIndex > 0 && (
         <button
