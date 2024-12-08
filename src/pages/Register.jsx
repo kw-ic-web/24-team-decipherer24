@@ -11,11 +11,18 @@ const Container = styled.div`
 `;
 
 const FormWrapper = styled.div`
-  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  padding: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
 `;
 
 const Title = styled.h1`
@@ -150,7 +157,7 @@ const Register = () => {
   };
 
   return (
-    <Container>
+    <>
       <FormWrapper>
         <Title>회원가입</Title>
         <form onSubmit={handleRegister}>
