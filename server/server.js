@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();  
 const User = require('../src/models/User.js');
 const authRoutes = require('../src/models/auth.js'); 
-const PORT = 5000;
+const PORT = 21281;
 
 const app = express();
 const server = http.createServer(app);
