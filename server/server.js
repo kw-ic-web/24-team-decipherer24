@@ -5,32 +5,32 @@ const cors = require("cors");
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-require('dotenv').config();  
+require('dotenv').config();
 const User = require('../src/models/User.js');
-const authRoutes = require('../src/models/auth.js'); 
+const authRoutes = require('../src/models/auth.js');
 const PORT = 5000;
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://team06.kwweb.duckdns.org",
     methods: ["GET", "POST"],
   },
 });
 
 app.use(express.static('public'));
 app.use(cors({
-  origin: "http://localhost:3000", // 허용할 클라이언트 URL
+  origin: "https://team06.kwweb.duckdns.org", // 허용할 클라이언트 URL
   methods: ["GET", "POST"],
   credentials: true,
 }));
 app.use('/api', authRoutes);
 
 
-const mongoURI = 'mongodb+srv://hyobinn2364:dkssud12@web.lgkop.mongodb.net/users'; 
+const mongoURI = 'mongodb+srv://hyobinn2364:dkssud12@web.lgkop.mongodb.net/users';
 
-mongoose.connect(mongoURI,{
+mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -41,25 +41,25 @@ mongoose.connect(mongoURI,{
     console.error("MongoDB 연결 실패:", err);
   });
 
-  app.get("/", (req, res) => {
-    res.status(200).json({ rooms });
-  });
+app.get("/", (req, res) => {
+  res.status(200).json({ rooms });
+});
 
-  app.post("/api/check-id", async (req, res) => {
-    const { id } = req.body;
-    try {
-      const user = await User.findOne({ id });
-      if (user) {
-        res.json({ exists: true });
-      } else {
-        res.json({ exists: false });
-      }
-    } catch (err) {
-      console.error('아이디 중복 확인 오류:', err);
-      res.status(500).json({ message: "아이디 중복 확인 실패" });
+app.post("/api/check-id", async (req, res) => {
+  const { id } = req.body;
+  try {
+    const user = await User.findOne({ id });
+    if (user) {
+      res.json({ exists: true });
+    } else {
+      res.json({ exists: false });
     }
-  });
-  
+  } catch (err) {
+    console.error('아이디 중복 확인 오류:', err);
+    res.status(500).json({ message: "아이디 중복 확인 실패" });
+  }
+});
+
 
 // 회원가입 API
 app.post('/api/register', async (req, res) => {
@@ -107,8 +107,8 @@ app.post('/api/login', async (req, res) => {
 });
 
 
-let rooms = []; 
-let userRoomMap = {}; 
+let rooms = [];
+let userRoomMap = {};
 io.on("connection", (socket) => {
   console.log(`New connection: ${socket.id}`);
 
