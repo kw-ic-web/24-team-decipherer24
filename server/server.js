@@ -7,8 +7,13 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const User = require('../src/models/User.js');
+<<<<<<< HEAD
 const authRoutes = require('../src/models/auth.js');
 const PORT = 5000;
+=======
+const authRoutes = require('../src/models/auth.js'); 
+const PORT = 21281;
+>>>>>>> 9560ebb0c9ea57363bf0de84d598108e80da1a8b
 
 const app = express();
 const server = http.createServer(app);
