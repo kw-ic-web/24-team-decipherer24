@@ -44,7 +44,7 @@ app.get("/", (req, res) => {
 });
 
 app.get('/api/check-id', async (req, res) => {
-  const userId = req.query.userid;
+  const userId = req.query.userid; // 프론트엔드에서 보낸 파라미터 이름 'userid'를 사용
 
   try {
       // 데이터베이스에서 ID 검색
@@ -62,6 +62,7 @@ app.get('/api/check-id', async (req, res) => {
       return res.status(500).json({ message: '서버 오류가 발생했습니다.' });
   }
 });
+
 
 
 // 회원가입 API

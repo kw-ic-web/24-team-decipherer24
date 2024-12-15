@@ -96,41 +96,33 @@ const Register = () => {
         password1: '',
         password2: '',
     });
+
+    const [isIDValid, setIsIDValid] = useState(false);
     const [idMessage, setIdMessage] = useState('');
     const [passwordMessage, setPasswordMessage] = useState('');
-    const [isIDValid, setIsIDValid] = useState(false);
-    const navigate = useNavigate();
 
     // 아이디 중복 확인
     const checkID = async () => {
-        if (!user.id.trim()) {
-            setIdMessage('아이디를 입력해주세요.');
-            setIsIDValid(false);
-            return;
-        }
-
         try {
-            const response = await axios.get('http://localhost:5000/api/check-id', { id: user.id });
+            const response = await axios.get('http://localhost:5000/api/check-id', {
+                params: { userid: user.id },
+            });
 
-            if (response.data.isAvailable) {
-                setIdMessage('사용 가능한 ID입니다.');
-                setIsIDValid(true);
-            } else {
-                setIdMessage('ID가 이미 사용 중입니다.');
+            if (response.data.exists) {
                 setIsIDValid(false);
+                setIdMessage('이미 사용 중인 아이디입니다.');
+            } else {
+                setIsIDValid(true);
+                setIdMessage('사용 가능한 아이디입니다.');
             }
-        } catch (error) {
-            console.error(error);
-            setIdMessage('서버 오류가 발생했습니다.');
-            setIsIDValid(false);
+        } catch (err) {
+            console.error('아이디 확인 중 오류 발생', err);
         }
     };
 
     // 비밀번호 확인
     const checkPasswordMatch = () => {
-        if (!user.password1 || !user.password2) {
-            setPasswordMessage('');
-        } else if (user.password1 !== user.password2) {
+        if (user.password1 !== user.password2) {
             setPasswordMessage('비밀번호가 일치하지 않습니다.');
         } else {
             setPasswordMessage('');
@@ -141,31 +133,20 @@ const Register = () => {
     const handleRegister = async (e) => {
         e.preventDefault();
 
-        if (!isIDValid) {
-            alert('아이디 중복 확인이 필요합니다.');
-            return;
-        }
-
-        if (user.password1 !== user.password2) {
-            alert('비밀번호가 일치하지 않습니다.');
-            return;
-        }
-
-        const newUser = {
-            id: user.id,
-            password: user.password1,
-        };
+        if (!isIDValid || passwordMessage !== '') return;
 
         try {
-            const response = await axios.post('http://localhost:5000/api/register', newUser);
+            const response = await axios.post('http://localhost:5000/api/register', {
+                id: user.id,
+                password: user.password1,
+            });
 
-            if (response.status === 200) {
-                alert('회원가입 성공!');
-                navigate('/login');
-            }
-        } catch (error) {
-            console.error(error);
-            alert('회원가입 실패: ' + (error.response?.data?.message || '서버 오류'));
+            alert('회원가입 성공!');
+            // 회원가입 후 로그인 페이지로 리디렉션
+            window.location.href = '/login';
+        } catch (err) {
+            console.error('회원가입 실패', err);
+            alert('회원가입에 실패했습니다. 다시 시도해주세요.');
         }
     };
 
