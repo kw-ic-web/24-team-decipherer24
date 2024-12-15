@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -83,20 +84,27 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
 
-    const storedId = localStorage.getItem("userId");
-    const storedPassword = localStorage.getItem("userPassword");
+    try {
+      // 로그인 API 호출
+      const response = await axios.post("http://localhost:5000/api/login", {
+        id,
+        password,
+      });
 
-    // 로그인 정보 확인
-    if (id === storedId && password === storedPassword) {
-      // 로그인 성공 시 토큰을 localStorage에 저장
-      localStorage.setItem("token", "someAuthToken");
-      alert("로그인 성공!");
-      navigate("/room"); // 룸 페이지로 리다이렉트
-    } else {
-      alert("아이디 또는 비밀번호가 잘못되었습니다.");
+      if (response.data.success) {
+        // 로그인 성공 시 토큰 저장
+        localStorage.setItem("token", response.data.token);
+        alert("로그인 성공!");
+        navigate("/room"); // 룸 페이지로 리다이렉트
+      } else {
+        alert("아이디 또는 비밀번호가 잘못되었습니다.");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("로그인 중 오류가 발생했습니다.");
     }
   };
 

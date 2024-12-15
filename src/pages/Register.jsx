@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const Container = styled.div`
     display: flex;
@@ -101,23 +102,27 @@ const Register = () => {
     const navigate = useNavigate();
 
     // 아이디 중복 확인
-    const checkID = () => {
+    const checkID = async () => {
         if (!user.id.trim()) {
             setIdMessage('아이디를 입력해주세요.');
             setIsIDValid(false);
             return;
         }
 
-        const mockDatabase = [{ id: 'existingUser' }];
+        try {
+            const response = await axios.get('http://localhost:5000/api/check-id', { id: user.id });
 
-        const idExists = mockDatabase.some((entry) => entry.id === user.id);
-
-        if (idExists) {
-            setIdMessage('ID가 이미 사용 중입니다.');
+            if (response.data.isAvailable) {
+                setIdMessage('사용 가능한 ID입니다.');
+                setIsIDValid(true);
+            } else {
+                setIdMessage('ID가 이미 사용 중입니다.');
+                setIsIDValid(false);
+            }
+        } catch (error) {
+            console.error(error);
+            setIdMessage('서버 오류가 발생했습니다.');
             setIsIDValid(false);
-        } else {
-            setIdMessage('사용 가능한 ID입니다.');
-            setIsIDValid(true);
         }
     };
 
@@ -132,7 +137,8 @@ const Register = () => {
         }
     };
 
-    const handleRegister = (e) => {
+    // 회원가입 처리
+    const handleRegister = async (e) => {
         e.preventDefault();
 
         if (!isIDValid) {
@@ -150,11 +156,17 @@ const Register = () => {
             password: user.password1,
         };
 
-        localStorage.setItem('userId', newUser.id);
-        localStorage.setItem('userPassword', newUser.password);
+        try {
+            const response = await axios.post('http://localhost:5000/api/register', newUser);
 
-        alert('회원가입 성공!');
-        navigate('/login');
+            if (response.status === 200) {
+                alert('회원가입 성공!');
+                navigate('/login');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('회원가입 실패: ' + (error.response?.data?.message || '서버 오류'));
+        }
     };
 
     return (

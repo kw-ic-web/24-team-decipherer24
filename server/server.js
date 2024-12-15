@@ -1,62 +1,65 @@
 const express = require("express");
-const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
+const http= require("http")
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const User = require('../src/models/User.js');
 const authRoutes = require('../src/models/auth.js'); 
-const PORT = 21281;
+const PORT = 5000;
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "https://team06.kwweb.duckdns.org",
-    methods: ["GET", "POST"],
+    origin: ['http://localhost:3000'],
+    methods: ['GET', 'POST'],
+    credentials: true,  // 클라이언트와 서버 간의 인증을 허용하려면 true로 설정
   },
 });
 
 app.use(express.static('public'));
 app.use(cors({
-  origin: "https://team06.kwweb.duckdns.org", // 허용할 클라이언트 URL
+  origin: ['http://localhost:3000'], // 허용할 클라이언트 URL 추가
   methods: ["GET", "POST"],
   credentials: true,
 }));
 app.use('/api', authRoutes);
 
 
-const mongoURI = 'mongodb+srv://hyobinn2364:dkssud12@web.lgkop.mongodb.net/users';
-
-mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect("mongodb://root:1234@localhost:27017/admin", 
+  { dbName: "kwic" })
   .then(() => {
-    console.log("MongoDB 연결 성공!");
+      console.log("MongoDB 연결 성공!");
   })
   .catch(err => {
-    console.error("MongoDB 연결 실패:", err);
+      console.error("MongoDB 연결 실패:", err);
   });
+
 
 app.get("/", (req, res) => {
   res.status(200).json({ rooms });
 });
 
-app.post("/api/check-id", async (req, res) => {
-  const { id } = req.body;
+app.get('/api/check-id', async (req, res) => {
+  const userId = req.query.userid;
+
   try {
-    const user = await User.findOne({ id });
-    if (user) {
-      res.json({ exists: true });
-    } else {
-      res.json({ exists: false });
-    }
-  } catch (err) {
-    console.error('아이디 중복 확인 오류:', err);
-    res.status(500).json({ message: "아이디 중복 확인 실패" });
+      // 데이터베이스에서 ID 검색
+      const user = await User.findOne({ id: userId });
+      
+      if (user) {
+          // ID가 이미 존재하는 경우
+          return res.json({ exists: true });
+      } else {
+          // ID가 사용 가능할 경우
+          return res.json({ exists: false });
+      }
+  } catch (error) {
+      console.error('Error checking ID:', error);
+      return res.status(500).json({ message: '서버 오류가 발생했습니다.' });
   }
 });
 
