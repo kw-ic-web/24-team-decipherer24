@@ -104,7 +104,7 @@ const Register = () => {
     // 아이디 중복 확인
     const checkID = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/check-id', {
+            const response = await axios.get('http://localhost:21281/api/check-id', {
                 params: { userid: user.id },
             });
 
@@ -136,7 +136,7 @@ const Register = () => {
         if (!isIDValid || passwordMessage !== '') return;
 
         try {
-            const response = await axios.post('http://localhost:5000/api/register', {
+            const response = await axios.post('http://localhost:21281/api/register', {
                 id: user.id,
                 password: user.password1,
             });

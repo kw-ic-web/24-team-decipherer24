@@ -8,21 +8,22 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const User = require('../src/models/User.js');
 const authRoutes = require('../src/models/auth.js'); 
-const PORT = 5000;
+const PORT = 21281;
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ['http://localhost:3000'],
+    origin: '*',
     methods: ['GET', 'POST'],
     credentials: true,  // 클라이언트와 서버 간의 인증을 허용하려면 true로 설정
   },
 });
 
+app.use(express.json());
 app.use(express.static('public'));
 app.use(cors({
-  origin: ['http://localhost:3000'], // 허용할 클라이언트 URL 추가
+  origin: '*', // 허용할 클라이언트 URL 추가
   methods: ["GET", "POST"],
   credentials: true,
 }));
@@ -87,28 +88,32 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-// 로그인 API
 app.post('/api/login', async (req, res) => {
   try {
     const { id, password } = req.body;
+    console.log('Received id:', id); // 요청받은 id 확인
 
     // 사용자 찾기
-    const user = await User.findOne({ id });
+    const user = await User.findOne({ id: id });
     if (!user) return res.status(404).json({ error: '사용자를 찾을 수 없습니다.' });
+    console.log('User found:', user);
 
     // 비밀번호 비교
     const isPasswordValid = await bcrypt.compare(password, user.password);
+    console.log('Password valid:', isPasswordValid); // 비밀번호 비교 결과 확인
     if (!isPasswordValid) return res.status(400).json({ error: '비밀번호가 잘못되었습니다.' });
 
     // JWT 토큰 발급
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    console.log('JWT token:', token); // 발급된 토큰 확인
 
     res.json({ token, user: { id: user._id } });
   } catch (err) {
-    console.error(err);
+    console.error('Login error:', err);
     res.status(500).json({ error: '로그인 중 오류가 발생했습니다.' });
   }
 });
+
 
 
 let rooms = [];
