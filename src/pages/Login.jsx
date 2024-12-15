@@ -101,7 +101,7 @@ const Login = () => {
       localStorage.setItem("userId", user.id);
 
       // 로그인 성공 시 홈 페이지로 리디렉션
-      navigate("/home");  // 홈 페이지로 리디렉션 (useNavigate로 변경)
+      navigate("/room");  // 홈 페이지로 리디렉션 (useNavigate로 변경)
     } catch (err) {
       console.error(err);
       // 로그인 실패 시 에러 메시지 표시

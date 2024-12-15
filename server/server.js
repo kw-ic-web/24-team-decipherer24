@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const { Server } = require("socket.io");
 const cors = require("cors");
@@ -5,7 +6,6 @@ const http= require("http")
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
 const User = require('../src/models/User.js');
 const authRoutes = require('../src/models/auth.js'); 
 const PORT = 21281;
@@ -91,21 +91,20 @@ app.post('/api/register', async (req, res) => {
 app.post('/api/login', async (req, res) => {
   try {
     const { id, password } = req.body;
-    console.log('Received id:', id); // 요청받은 id 확인
 
     // 사용자 찾기
-    const user = await User.findOne({ id: id });
+    const user = await User.findOne({ id });
     if (!user) return res.status(404).json({ error: '사용자를 찾을 수 없습니다.' });
-    console.log('User found:', user);
 
     // 비밀번호 비교
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    console.log('Password valid:', isPasswordValid); // 비밀번호 비교 결과 확인
     if (!isPasswordValid) return res.status(400).json({ error: '비밀번호가 잘못되었습니다.' });
 
     // JWT 토큰 발급
+    if (!process.env.JWT_SECRET) {
+      throw new Error('JWT_SECRET is not defined');
+    }
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-    console.log('JWT token:', token); // 발급된 토큰 확인
 
     res.json({ token, user: { id: user._id } });
   } catch (err) {
