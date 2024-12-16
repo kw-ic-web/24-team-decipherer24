@@ -14,23 +14,23 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: '*',
-    methods: ['GET', 'POST'],
+    origin: "https://team06.kwweb.duckdns.org",
+    methods: ["GET", "POST"],
     credentials: true,  // 클라이언트와 서버 간의 인증을 허용하려면 true로 설정
   },
 });
 
-app.use(express.json());
 app.use(express.static('public'));
 app.use(cors({
-  origin: '*', // 허용할 클라이언트 URL 추가
+  origin: "https://team06.kwweb.duckdns.org", // 허용할 클라이언트 URL
   methods: ["GET", "POST"],
   credentials: true,
 }));
 app.use('/api', authRoutes);
 
 
-mongoose.connect("mongodb://root:1234@localhost:27017/admin", 
+
+mongoose.connect("mongodb://root:1234@223.194.46.67:27017/admin", 
   { dbName: "kwic" })
   .then(() => {
       console.log("MongoDB 연결 성공!");
