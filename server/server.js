@@ -16,7 +16,7 @@ const io = new Server(server, {
   cors: {
     origin: "https://team06.kwweb.duckdns.org",
     methods: ["GET", "POST"],
-    credentials: true,  // 클라이언트와 서버 간의 인증을 허용하려면 true로 설정
+    credentials: true, 
   },
 });
 
@@ -45,7 +45,7 @@ app.get("/", (req, res) => {
 });
 
 app.get('/api/check-id', async (req, res) => {
-  const userId = req.query.userid; // 프론트엔드에서 보낸 파라미터 이름 'userid'를 사용
+  const userId = req.query.userid; 
 
   try {
       // 데이터베이스에서 ID 검색
