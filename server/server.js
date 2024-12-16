@@ -65,8 +65,6 @@ app.get('/api/check-id', async (req, res) => {
 });
 
 
-
-// 회원가입 API
 app.post('/api/register', async (req, res) => {
   try {
     const { id, password } = req.body;
@@ -77,7 +75,7 @@ app.post('/api/register', async (req, res) => {
       return res.status(400).json({ error: 'ID가 이미 사용 중입니다.' });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10); // 비밀번호 해싱
+    const hashedPassword = await bcrypt.hash(password, 10); 
     const newUser = new User({ id, password: hashedPassword });
     await newUser.save();
 
