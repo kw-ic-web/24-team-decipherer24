@@ -89,7 +89,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:21281/api/login', {
+      const response = await axios.post('https://team06-api.kwweb.duckdns.org/api/login', {
         id,
         password,
       });
