@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import io from "socket.io-client";
 
-export const socket = io("http://localhost:21281/");
+export const socket = io("https://team06-api.kwweb.duckdns.org");
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
