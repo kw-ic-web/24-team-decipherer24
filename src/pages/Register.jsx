@@ -8,7 +8,7 @@ const Container = styled.div`
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f9f9f9; /* 배경색 */
+    background-color: #f9f9f9; 
 `;
 
 const FormWrapper = styled.div`
@@ -41,7 +41,7 @@ const Row = styled.div`
         margin-right: 10px;
         font-weight: bold;
         font-size: 1rem;
-        width: 150px; /* 라벨의 고정 너비 설정 */
+        width: 150px; 
     }
 `;
 
